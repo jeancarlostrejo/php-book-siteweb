@@ -1,16 +1,5 @@
-<?php
-?>
+<?php require_once("./templates/header.php"); ?>
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sitio Web</title>
-    <link rel="stylesheet" href="./css/bootstrap.min.css">
-</head>
-<body>
-    <h1>Hello World</h1>
-    <script src="./js/bootstrap.bundle.js"></script>
-</body>
-</html>
+<h1>Inicio</h1>
+
+<?php require_once("./templates/footer.php"); ?>
