@@ -1,5 +1,4 @@
 <?php
-echo "Hello world"; 
 ?>
 
 <!DOCTYPE html>
@@ -8,8 +7,10 @@ echo "Hello world";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sitio Web</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
 </head>
 <body>
-    <h1>Sitio web</h1>
+    <h1>Hello World</h1>
+    <script src="./js/bootstrap.bundle.js"></script>
 </body>
 </html>
