@@ -4,9 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administrador</title>
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
 </head>
 <body>
+    <?php
+        if (isset($_SERVER['HTTPS'])) {
+            $protocolo = "https://";
+        } else {
+            $protocolo = "http://";
+        }
+
+        $url = $protocolo . $_SERVER['HTTP_HOST'];
+    ?>
     <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
@@ -25,17 +34,19 @@
                                 href="#">Administración</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Inicio</a>
+                            <a class="nav-link"
+                                href="<?= $url . '/admin/home.php'?>">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Libros</a>
+                            <a class="nav-link"  href="<?= $url . '/admin/sections/books.php'?>">Libros</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Ver sitio web</a>
+                            <a class="nav-link" href="<?= $url ?>">Ver sitio
+                                web</a>
                         </li>
                     </ul>
                     <div>
-                        <a class="btn btn-primary">Cerrar sesión</a>
+                        <a class="btn btn-primary"  href="<?= $url . '/admin/sections/logout.php'?>">Cerrar sesión</a>
 
                     </div>
                 </div>
