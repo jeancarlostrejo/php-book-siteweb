@@ -5,30 +5,57 @@ require_once "../templates/header.php";
 $bookId = $_POST["id"] ?? "";
 $bookName = $_POST["name"] ?? "";
 $image = $_FILES["image"]["name"] ?? "";
+$action = $_POST["action"] ?? "";
 $errors = [];
 
-if (isset($_POST["action"]) && $_POST["action"] === "add") {
+if (isset($_POST["action"]) && $_POST["action"] != "") {
 
-    if (empty($bookId)) {
-        $errors[] = "El id es obligatorio";
+    switch ($action) {
+        case 'add':
+            if (empty($bookId)) {
+                $errors[] = "El id es obligatorio";
+            }
+
+            if (empty($bookName)) {
+                $errors[] = "El nombre es obligatorio";
+            }
+            if ($_FILES["image"]["error"] === UPLOAD_ERR_NO_FILE) {
+                $errors[] = "La imagen es obligatoria";
+            } else {
+                $validMimeType = ["image/jpg", "image/jpeg", "image/png"];
+
+                var_dump($_FILES["image"]["tmp_name"]);
+                if (!in_array(mime_content_type($_FILES["image"]["tmp_name"]), $validMimeType)) {
+                    $errors[] = "Formato de archivo no válido";
+                }
+
+                if ($_FILES["image"]["size"] / 1024 > 3072) {
+                    $errors[] = "El archivo ha excedido el tamaño permitido";
+                }
+            }
+
+            if (empty($errors)) {
+                $_SESSION["exito"] = "Libro agregado exitosamente";
+                header("Location: " . $_SERVER["REQUEST_URI"]);
+                exit;
+            } else {
+                $_SESSION["errors"] = $errors;
+                header("Location: " . $_SERVER["REQUEST_URI"]);
+                exit;
+            }
+            break;
+        case "modify":
+            echo "Modificar";
+            break;
+
+        case "cancel":
+            echo "cancelado";
+            break;
+        default:
+
+            break;
     }
 
-    if (empty($bookName)) {
-        $errors[] = "El nombre es obligatorio";
-    }
-    if (empty($image)) {
-        $errors[] = "La imagen es obligatoria";
-    }
-
-    if (empty($errors)) {
-        $_SESSION["exito"] = "Libro agregado exitosamente";
-        header("Location: " . $_SERVER["REQUEST_URI"]);
-        exit;
-    } else {
-        $_SESSION["errors"] = $errors;
-        header("Location: " . $_SERVER["REQUEST_URI"]);
-        exit;
-    }
 } else {
 
     $msgSucces = $_SESSION["exito"] ?? "";
@@ -78,7 +105,7 @@ if (isset($_POST["action"]) && $_POST["action"] === "add") {
                 <div class="mb-3">
                     <label for="image" class="form-label">Imagen:</label>
                     <input type="file" name="image" id="image"
-                        class="form-control" accept=".png, .jpg, .jpge" />
+                        class="form-control" accept=".png, .jpg, .jpeg" />
                 </div>
 
             </div>
