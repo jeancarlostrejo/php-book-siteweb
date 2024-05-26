@@ -1,6 +1,6 @@
 <?php
 
-require_once "./config.php";
+require_once ("config.php");
 
 try {
     $dsn = "mysql:host=" . DB_HOST . ";port=" . PORT . ";dbname=" . DB_NAME;

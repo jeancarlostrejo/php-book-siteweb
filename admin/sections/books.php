@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once "../templates/header.php";
+require_once "../config/conection.php";
 
 $bookId = $_POST["id"] ?? "";
 $bookName = $_POST["name"] ?? "";
@@ -40,8 +41,20 @@ if (isset($_POST["action"]) && $_POST["action"] != "") {
                     }
                 }
 
-                if (move_uploaded_file($_FILES["image"]["tmp_name"], "../../images/" . time() . "_" . $_FILES["image"]["name"])) {
-                    $_SESSION["exito"] = "Libro agregado correctamente";
+                $imageName = time() . "_" . $_FILES["image"]["name"];
+
+                if (move_uploaded_file($_FILES["image"]["tmp_name"], "../../images/" . $imageName)) {
+                    $stm = $pdo->prepare("INSERT INTO books(name, image) VALUES (?,?)");
+                    $stm->bindParam(1, $bookName);
+                    $stm->bindParam(2, $imageName);
+
+                    $stm->execute();
+
+                    if ($stm->rowCount() > 0) {
+                        $_SESSION["exito"] = "Libro agregado correctamente";
+                    } else {
+                        $errors[] = "Error al guardar la información";
+                    }
                 } else {
                     $errors[] = "Error al subir la imagen";
                     $_SESSION["errors"] = $errors;
