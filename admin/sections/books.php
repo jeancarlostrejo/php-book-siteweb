@@ -24,7 +24,6 @@ if (isset($_POST["action"]) && $_POST["action"] != "") {
             } else {
                 $validMimeType = ["image/jpg", "image/jpeg", "image/png"];
 
-                var_dump($_FILES["image"]["tmp_name"]);
                 if (!in_array(mime_content_type($_FILES["image"]["tmp_name"]), $validMimeType)) {
                     $errors[] = "Formato de archivo no válido";
                 }
@@ -35,7 +34,19 @@ if (isset($_POST["action"]) && $_POST["action"] != "") {
             }
 
             if (empty($errors)) {
-                $_SESSION["exito"] = "Libro agregado exitosamente";
+                if (!file_exists("../../images")) {
+                    if (!mkdir("../../images", 0777)) {
+                        $errors[] = "Error al crear el directiorio";
+                    }
+                }
+
+                if (move_uploaded_file($_FILES["image"]["tmp_name"], "../../images/" . time() . "_" . $_FILES["image"]["name"])) {
+                    $_SESSION["exito"] = "Libro agregado correctamente";
+                } else {
+                    $errors[] = "Error al subir la imagen";
+                    $_SESSION["errors"] = $errors;
+                }
+
                 header("Location: " . $_SERVER["REQUEST_URI"]);
                 exit;
             } else {
