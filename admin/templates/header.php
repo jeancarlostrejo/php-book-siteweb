@@ -1,3 +1,17 @@
+<?php
+
+session_start();
+
+if (!isset($_SESSION["user"])) {
+    header("Location: ../index.php");
+} else {
+    if ($_SESSION["logged"] == "ok") {
+        $userName = $_SESSION["username"];
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -8,14 +22,14 @@
 </head>
 <body>
     <?php
-        if (isset($_SERVER['HTTPS'])) {
-            $protocolo = "https://";
-        } else {
-            $protocolo = "http://";
-        }
+if (isset($_SERVER['HTTPS'])) {
+    $protocolo = "https://";
+} else {
+    $protocolo = "http://";
+}
 
-        $url = $protocolo . $_SERVER['HTTP_HOST'];
-    ?>
+$url = $protocolo . $_SERVER['HTTP_HOST'];
+?>
     <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
@@ -35,18 +49,18 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link"
-                                href="<?= $url . '/admin/home.php'?>">Inicio</a>
+                                href="<?=$url . '/admin/home.php';?>">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link"  href="<?= $url . '/admin/sections/books.php'?>">Libros</a>
+                            <a class="nav-link"  href="<?=$url . '/admin/sections/books.php';?>">Libros</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="<?= $url ?>">Ver sitio
+                            <a class="nav-link" href="<?=$url;?>">Ver sitio
                                 web</a>
                         </li>
                     </ul>
                     <div>
-                        <a class="btn btn-primary"  href="<?= $url . '/admin/sections/logout.php'?>">Cerrar sesión</a>
+                        <a class="btn btn-primary"  href="<?=$url . '/admin/sections/logout.php';?>">Cerrar sesión</a>
 
                     </div>
                 </div>
