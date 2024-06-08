@@ -95,6 +95,15 @@ if (isset($_POST["action"]) && $_POST["action"] != "") {
         case "delete":
 
             if ((!empty($bookId))) {
+
+                $stm = $pdo->prepare("SELECT * from books WHERE id = ?");
+
+                $stm->bindParam(1, $bookId);
+                $stm->execute();
+
+                $book = $stm->fetch();
+                unlink("../../images/" . $book["image"]);
+
                 $stm = $pdo->prepare("DELETE FROM books WHERE id = ?");
 
                 $stm->bindParam(1, $bookId);
