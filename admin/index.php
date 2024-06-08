@@ -78,12 +78,17 @@ if (isset($_SESSION["error"])) {
                                                 class="form-label text-secondary ">Contraseña</label>
                                         </div>
                                     </div>
-                                    <div class="col-12">
+                                    <div class="col-6">
                                         <div class="d-grid">
                                             <button
                                                 class="btn btn-primary btn-lg"
                                                 type="submit"
                                                 name="send">Acceder</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="d-grid">
+                                            <a href="../index.php" class="btn btn-danger btn-lg">Volver al sitio</a>
                                         </div>
                                     </div>
                                 </div>
