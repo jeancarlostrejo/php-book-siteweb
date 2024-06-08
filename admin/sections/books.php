@@ -228,21 +228,23 @@ if (isset($_POST["action"]) && $_POST["action"] != "") {
             <div>
                 <div class="mb-3">
                     <label for="id" class="form-label">ID:</label>
-                    <input type="text" value="<?=$book["id"] ?? "";?>" name="id" id="id" class="form-control"
+                    <input readonly type="text" value="<?=$book["id"] ?? "";?>" name="id" id="id" class="form-control"
                         placeholder="ID"/>
                 </div>
                 <div class="mb-3">
                     <label for="name" class="form-label">Nombre:</label>
                     <input type="text" value="<?=$book["name"] ?? "";?>" name="name" id="name"
-                        class="form-control" placeholder="Nombre del libro" />
+                        class="form-control" placeholder="Nombre del libro" required />
                 </div>
                 <div class="mb-3">
                     <label for="image" class="form-label">Imagen:</label>
-
-                    <?=$book["image"] ?? "";?>
+                    <br>
+                    <?php if (isset($book["image"]) && $book["image"] != ""): ?>
+                        <img class="img-thumbnail rounded" src="../../images/<?=htmlspecialchars($book["image"]);?>" width="75" alt="Imagen del libro <?=htmlspecialchars($book["name"]);?>">
+                    <?php endif;?>
 
                     <input type="file" name="image" id="image"
-                        class="form-control" accept=".png, .jpg, .jpeg" />
+                        class="form-control" accept=".png, .jpg, .jpeg"/>
                 </div>
 
             </div>
@@ -286,7 +288,7 @@ if (isset($_POST["action"]) && $_POST["action"] != "") {
                 <td><?=$book["id"];?></td>
                 <td><?=htmlspecialchars($book["name"]);?></td>
                 <td>
-                    <img src="../../images/<?=htmlspecialchars($book["image"]);?>" width="75" alt="Imagen del libro <?=htmlspecialchars($book["name"]);?>">
+                    <img class="img-thumbnail rounded" src="../../images/<?=htmlspecialchars($book["image"]);?>" width="75" alt="Imagen del libro <?=htmlspecialchars($book["name"]);?>">
 
                 </td>
                 <td>
