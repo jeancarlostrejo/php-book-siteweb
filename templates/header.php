@@ -1,3 +1,8 @@
+<?php
+
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -27,9 +32,17 @@
                     <li class="nav-item">
                         <a class="nav-link" href="./about.php">Nosotros</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../admin/index.php">Login</a>
-                    </li>
+
+                    <?php if ($_SESSION["logged"] === "ok"): ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../admin/home.php">Administrar</a>
+                        </li>
+                    <?php else: ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../admin/index.php">Login</a>
+                        </li>
+                    <?php endif;?>
+
                 </ul>
             </div>
         </div>
