@@ -17,9 +17,6 @@ if (isset($_POST["action"]) && $_POST["action"] != "") {
 
     switch ($action) {
         case 'add':
-            if (empty($bookId)) {
-                $errors[] = "El id es obligatorio";
-            }
 
             if (empty($bookName)) {
                 $errors[] = "El nombre es obligatorio";
@@ -72,8 +69,23 @@ if (isset($_POST["action"]) && $_POST["action"] != "") {
                 exit;
             }
             break;
+
         case "modify":
             echo "Modificar";
+            break;
+
+        case "select":
+
+            if (!empty($bookId)) {
+
+                $stm = $pdo->prepare("SELECT * FROM books WHERE id = ?");
+
+                $stm->bindParam(1, $bookId);
+                $stm->execute();
+
+                $book = $stm->fetch();
+            }
+
             break;
 
         case "cancel":
@@ -143,16 +155,19 @@ if (isset($_POST["action"]) && $_POST["action"] != "") {
             <div>
                 <div class="mb-3">
                     <label for="id" class="form-label">ID:</label>
-                    <input type="text" name="id" id="id" class="form-control"
-                        placeholder="ID" />
+                    <input type="text" value="<?=$book["id"] ?? "";?>" name="id" id="id" class="form-control"
+                        placeholder="ID" disabled/>
                 </div>
                 <div class="mb-3">
                     <label for="name" class="form-label">Nombre:</label>
-                    <input type="text" name="name" id="name"
+                    <input type="text" value="<?=$book["name"] ?? "";?>" name="name" id="name"
                         class="form-control" placeholder="Nombre del libro" />
                 </div>
                 <div class="mb-3">
                     <label for="image" class="form-label">Imagen:</label>
+
+                    <?=$book["image"] ?? "";?>
+
                     <input type="file" name="image" id="image"
                         class="form-control" accept=".png, .jpg, .jpeg" />
                 </div>
@@ -202,7 +217,7 @@ if (isset($_POST["action"]) && $_POST["action"] != "") {
                     <form class="btn-group" method="POST">
                         <input type="hidden" name="id" value="<?=$book["id"];?>">
 
-                        <input type="submit" name="action" value="modify" class="btn btn-primary m-1">
+                        <input type="submit" name="action" value="select" class="btn btn-primary m-1">
 
                         <input type="submit" name="action" value="delete" class="btn btn-danger m-1 ">
 
