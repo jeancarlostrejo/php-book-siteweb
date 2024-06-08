@@ -153,7 +153,7 @@ if (isset($_POST["action"]) && $_POST["action"] != "") {
             break;
 
         case "cancel":
-            echo "cancelado";
+            
             break;
 
         case "delete":
@@ -234,7 +234,7 @@ if (isset($_POST["action"]) && $_POST["action"] != "") {
                 <div class="mb-3">
                     <label for="name" class="form-label">Nombre:</label>
                     <input type="text" value="<?=$book["name"] ?? "";?>" name="name" id="name"
-                        class="form-control" placeholder="Nombre del libro" required />
+                        class="form-control" placeholder="Nombre del libro"  />
                 </div>
                 <div class="mb-3">
                     <label for="image" class="form-label">Imagen:</label>
@@ -250,12 +250,12 @@ if (isset($_POST["action"]) && $_POST["action"] != "") {
             </div>
 
             <div class="btn-group">
-                <button type="submit" class="btn btn-success m-1" name="action"
+                <button type="submit" class="btn btn-success m-1" name="action" <?php echo ($action === "select") ? "disabled" : ""; ?>
                     value="add">Agregar</button>
                 <button type="submit" class="btn btn-warning m-1" name="action"
-                    value="modify">Modificar</button>
+                    value="modify"<?php echo ($action !== "select") ? "disabled" : ""; ?> >Modificar</button>
                 <button type="submit" class="btn btn-danger m-1" name="action"
-                    value="cancel">Cancelar</button>
+                    value="cancel" <?php echo ($action === "select") ? "disabled" : ""; ?> >Cancelar</button>
             </div>
 
         </form>
