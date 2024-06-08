@@ -1,3 +1,5 @@
-<?php require_once "../templates/header.php";?>
-<h1>Logout</h1>
-<?php require_once "../templates/footer.php";?>
+<?php
+
+session_start();
+session_destroy();
+header("Location: ../index.php");

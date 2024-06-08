@@ -59,9 +59,11 @@ $url = $protocolo . $_SERVER['HTTP_HOST'];
                                 web</a>
                         </li>
                     </ul>
-                    <div>
+                    <div class="m-2">
+                        <p>Hola, <?=$userName?></p>
+                    </div>
+                    <div >
                         <a class="btn btn-primary"  href="<?=$url . '/admin/sections/logout.php';?>">Cerrar sesión</a>
-
                     </div>
                 </div>
         </nav>
