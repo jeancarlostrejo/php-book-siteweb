@@ -2,7 +2,7 @@
 
 session_start();
 
-if (!isset($_SESSION["user"])) {
+if (!isset($_SESSION["logged"])) {
     header("Location: ../index.php");
 } else {
     if ($_SESSION["logged"] == "ok") {

@@ -9,8 +9,14 @@ if (isset($_POST["send"])) {
         header("Location: index.php");
         die;
     } else {
-        header("Location: home.php");
-        exit;
+
+        if ($_POST["user"] === "ferre" && $_POST["password"] === "123456789") {
+            $_SESSION["logged"] = "ok";
+            $_SESSION["username"] = $_POST["user"];
+
+            header("Location: home.php");
+            exit;
+        }
     }
 }
 
