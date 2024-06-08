@@ -153,7 +153,9 @@ if (isset($_POST["action"]) && $_POST["action"] != "") {
             break;
 
         case "cancel":
-            
+            header("Location: " . $_SERVER["REQUEST_URI"]);
+            exit;
+
             break;
 
         case "delete":
