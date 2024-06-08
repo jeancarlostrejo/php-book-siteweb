@@ -9,6 +9,10 @@ $image = $_FILES["image"]["name"] ?? "";
 $action = $_POST["action"] ?? "";
 $errors = [];
 
+$stm = $pdo->prepare("SELECT * FROM books");
+$stm->execute();
+$result = $stm->fetchAll();
+
 if (isset($_POST["action"]) && $_POST["action"] != "") {
 
     switch ($action) {
@@ -74,6 +78,27 @@ if (isset($_POST["action"]) && $_POST["action"] != "") {
 
         case "cancel":
             echo "cancelado";
+            break;
+
+        case "delete":
+
+            if ((!empty($bookId))) {
+                $stm = $pdo->prepare("DELETE FROM books WHERE id = ?");
+
+                $stm->bindParam(1, $bookId);
+                $stm->execute();
+
+                if ($stm->rowCount() > 0) {
+                    $_SESSION["exito"] = "Libro eliminado con exito";
+                    header("Location: " . $_SERVER["REQUEST_URI"]);
+                    exit;
+                } else {
+                    $_SESSION["error"] = "Error al eliminar";
+                    header("Location: " . $_SERVER["REQUEST_URI"]);
+                    exit;
+                }
+            }
+
             break;
         default:
 
@@ -147,8 +172,6 @@ if (isset($_POST["action"]) && $_POST["action"] != "") {
     </div>
 </div>
 
-
-
 <div class="table-responsive col-sm-12 col-md-7 col-lg-7 col-xl-7">
     <h3 class="text-center text-secondary">Listado de Libros</h3>
     <table class="table table-bordered">
@@ -161,20 +184,32 @@ if (isset($_POST["action"]) && $_POST["action"] != "") {
             </tr>
         </thead>
         <tbody>
-            <tr class="">
-                <td scope="row">1</td>
-                <td>Memorias de Idun</td>
-                <td>Imagen.png</td>
-                <td>
-                    <div class="btn-group">
-                        <button type="button"
-                            class="btn btn-success m-1">Editar</button>
-                        <button type="button"
-                            class="btn btn-warning m-1">Eliminar</button>
-                        <button type="button"
-                            class="btn btn-danger m-1">Cancelar</button>
-                    </div>
+
+            <?php if ($stm->rowCount() <= 0): ?>
+            <tr>
+                <td colspan="6">
+                    <h3 class="text-center text-black-50 ">No hay
+                        registros</h3>
                 </td>
+            </tr>
+            <?php else: ?>
+            <?php foreach ($result as $book): ?>
+            <tr>
+                <td><?=$book["id"];?></td>
+                <td><?=htmlspecialchars($book["name"]);?></td>
+                <td><?=htmlspecialchars($book["image"]);?></td>
+                <td>
+                    <form class="btn-group" method="POST">
+                        <input type="hidden" name="id" value="<?=$book["id"];?>">
+
+                        <input type="submit" name="action" value="modify" class="btn btn-primary m-1">
+
+                        <input type="submit" name="action" value="delete" class="btn btn-danger m-1 ">
+
+                    </form>
+                </td>
+                <?php endforeach;?>
+                <?php endif;?>
             </tr>
         </tbody>
     </table>
