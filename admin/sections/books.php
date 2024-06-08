@@ -16,139 +16,15 @@ if (isset($_POST["action"]) && $_POST["action"] != "") {
 
     switch ($action) {
         case 'add':
-
-            if (empty($bookName)) {
-                $errors[] = "El nombre es obligatorio";
-            }
-            if ($_FILES["image"]["error"] === UPLOAD_ERR_NO_FILE) {
-                $errors[] = "La imagen es obligatoria";
-            } else {
-                $validMimeType = ["image/jpg", "image/jpeg", "image/png"];
-
-                if (!in_array(mime_content_type($_FILES["image"]["tmp_name"]), $validMimeType)) {
-                    $errors[] = "Formato de archivo no válido";
-                }
-
-                if ($_FILES["image"]["size"] / 1024 > 3072) {
-                    $errors[] = "El archivo ha excedido el tamaño permitido";
-                }
-            }
-
-            if (empty($errors)) {
-                if (!file_exists("../../images")) {
-                    if (!mkdir("../../images", 0777)) {
-                        $errors[] = "Error al crear el directiorio";
-                    }
-                }
-
-                $imageName = time() . "_" . $_FILES["image"]["name"];
-
-                if (move_uploaded_file($_FILES["image"]["tmp_name"], "../../images/" . $imageName)) {
-                    $stm = $pdo->prepare("INSERT INTO books(name, image) VALUES (?,?)");
-                    $stm->bindParam(1, $bookName);
-                    $stm->bindParam(2, $imageName);
-
-                    $stm->execute();
-
-                    if ($stm->rowCount() > 0) {
-                        $_SESSION["exito"] = "Libro agregado correctamente";
-                    } else {
-                        $errors[] = "Error al guardar la información";
-                    }
-                } else {
-                    $errors[] = "Error al subir la imagen";
-                    $_SESSION["errors"] = $errors;
-                }
-
-                header("Location: " . $_SERVER["REQUEST_URI"]);
-                exit;
-            } else {
-                $_SESSION["errors"] = $errors;
-                header("Location: " . $_SERVER["REQUEST_URI"]);
-                exit;
-            }
+            require_once "./actions/addBook.php";
             break;
 
         case "modify":
-
-            if (empty($bookId)) {
-                $errors[] = "El id es obligatorio";
-            } else {
-                $stm = $pdo->prepare("SELECT * FROM books WHERE id=?");
-
-                $stm->bindParam(1, $bookId);
-                $stm->execute();
-
-                $bookRow = $stm->fetch();
-            }
-
-            if (empty($bookName)) {
-                $errors[] = "El nombre es obligatorio";
-            }
-
-            if ($_FILES["image"]["error"] !== UPLOAD_ERR_NO_FILE) {
-                $validMimeType = ["image/jpg", "image/jpeg", "image/png"];
-
-                if (!in_array(mime_content_type($_FILES["image"]["tmp_name"]), $validMimeType)) {
-                    $errors[] = "Formato de archivo no válido";
-                }
-
-                if ($_FILES["image"]["size"] / 1024 > 3072) {
-                    $errors[] = "El archivo ha excedido el tamaño permitido";
-                }
-
-                if (empty($errors)) {
-
-                    $imageName = time() . "_" . $_FILES["image"]["name"];
-
-                    unlink("../../images/" . $bookRow["image"]);
-                    move_uploaded_file($_FILES["image"]["tmp_name"], "../../images/" . $imageName);
-
-                }
-
-            } else {
-                $imageName = $bookRow["image"];
-            }
-
-            if (empty($errors)) {
-                $stm = $pdo->prepare("UPDATE books SET name=?, image=? WHERE id=?");
-                $stm->bindParam(1, $bookName);
-                $stm->bindParam(2, $imageName);
-                $stm->bindParam(3, $bookId);
-
-                $stm->execute();
-
-                if ($stm->rowCount() > 0) {
-                    $_SESSION["exito"] = "Libro actualizado";
-                } else {
-                    $errors[] = "No se modificó el libro";
-                    $_SESSION["errors"] = $errors;
-
-                }
-                header("Location: " . $_SERVER["REQUEST_URI"]);
-                exit;
-
-            } else {
-                $_SESSION["errors"] = $errors;
-                header("Location: " . $_SERVER["REQUEST_URI"]);
-                exit;
-
-            }
-
+            require_once "./actions/modifyBook.php";
             break;
 
         case "select":
-
-            if (!empty($bookId)) {
-
-                $stm = $pdo->prepare("SELECT * FROM books WHERE id = ?");
-
-                $stm->bindParam(1, $bookId);
-                $stm->execute();
-
-                $book = $stm->fetch();
-            }
-
+            require_once "./actions/selectBook.php";
             break;
 
         case "cancel":
@@ -158,36 +34,10 @@ if (isset($_POST["action"]) && $_POST["action"] != "") {
             break;
 
         case "delete":
-
-            if ((!empty($bookId))) {
-
-                $stm = $pdo->prepare("SELECT * from books WHERE id = ?");
-
-                $stm->bindParam(1, $bookId);
-                $stm->execute();
-
-                $book = $stm->fetch();
-                unlink("../../images/" . $book["image"]);
-
-                $stm = $pdo->prepare("DELETE FROM books WHERE id = ?");
-
-                $stm->bindParam(1, $bookId);
-                $stm->execute();
-
-                if ($stm->rowCount() > 0) {
-                    $_SESSION["exito"] = "Libro eliminado con exito";
-                    header("Location: " . $_SERVER["REQUEST_URI"]);
-                    exit;
-                } else {
-                    $_SESSION["error"] = "Error al eliminar";
-                    header("Location: " . $_SERVER["REQUEST_URI"]);
-                    exit;
-                }
-            }
-
+            require_once "./actions/deleteBook.php";
             break;
+            
         default:
-
             break;
     }
 
