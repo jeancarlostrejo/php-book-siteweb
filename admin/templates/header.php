@@ -3,7 +3,7 @@
 session_start();
 
 if (!isset($_SESSION["logged"])) {
-    header("Location: ../index.php");
+    header("Location: ../login.php");
 } else {
     if ($_SESSION["logged"] == "ok") {
         $userName = $_SESSION["username"];

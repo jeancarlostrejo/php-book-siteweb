@@ -33,13 +33,16 @@ session_start();
                         <a class="nav-link" href="./about.php">Nosotros</a>
                     </li>
 
-                    <?php if ($_SESSION["logged"] === "ok"): ?>
+                    <?php if (isset($_SESSION["logged"]) && ($_SESSION["logged"] === "ok")): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="../admin/home.php">Administrar</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../admin/sections/logout.php">Cerrar sesión</a>
+                        </li>
                     <?php else: ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="../admin/index.php">Login</a>
+                            <a class="nav-link" href="../admin/login.php">Login</a>
                         </li>
                     <?php endif;?>
 

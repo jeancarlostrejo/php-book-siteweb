@@ -1,12 +1,18 @@
 <?php
 
 session_start();
+
+if(isset($_SESSION["logged"])) {
+    header("Location: home.php");
+    die;
+}
+
 if (isset($_POST["send"])) {
     if (empty($_POST["user"]) || empty($_POST["password"])) {
         $error = "Todos los campos son obligatorios";
         $_SESSION["error"] = $error;
         $_SESSION["user"] = $_POST["user"];
-        header("Location: index.php");
+        header("Location: login.php");
         die;
     } else {
 
