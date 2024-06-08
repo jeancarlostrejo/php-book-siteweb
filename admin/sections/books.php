@@ -256,7 +256,7 @@ if (isset($_POST["action"]) && $_POST["action"] != "") {
                 <button type="submit" class="btn btn-warning m-1" name="action"
                     value="modify"<?php echo ($action !== "select") ? "disabled" : ""; ?> >Modificar</button>
                 <button type="submit" class="btn btn-danger m-1" name="action"
-                    value="cancel" <?php echo ($action === "select") ? "disabled" : ""; ?> >Cancelar</button>
+                    value="cancel" <?php echo ($action !== "select") ? "disabled" : ""; ?> >Cancelar</button>
             </div>
 
         </form>
