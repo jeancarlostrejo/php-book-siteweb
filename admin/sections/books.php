@@ -108,34 +108,26 @@ if (isset($_POST["action"]) && $_POST["action"] != "") {
             </tr>
         </thead>
         <tbody>
+            <?php if($stm->rowCount() > 0): ?>
+                <?php foreach ($result as $book): ?>
+                <tr>
+                    <td><?=$book["id"];?></td>
+                    <td><?=htmlspecialchars($book["name"]);?></td>
+                    <td>
+                        <img class="img-thumbnail rounded" src="../../images/<?=htmlspecialchars($book["image"]);?>" width="75" alt="Imagen del libro <?=htmlspecialchars($book["name"]);?>">
 
-            <?php if ($stm->rowCount() <= 0): ?>
-            <tr>
-                <td colspan="6">
-                    <h3 class="text-center text-black-50 ">No hay
-                        registros</h3>
-                </td>
-            </tr>
-            <?php else: ?>
-            <?php foreach ($result as $book): ?>
-            <tr>
-                <td><?=$book["id"];?></td>
-                <td><?=htmlspecialchars($book["name"]);?></td>
-                <td>
-                    <img class="img-thumbnail rounded" src="../../images/<?=htmlspecialchars($book["image"]);?>" width="75" alt="Imagen del libro <?=htmlspecialchars($book["name"]);?>">
+                    </td>
+                    <td>
+                        <form class="btn-group" method="POST">
+                            <input type="hidden" name="id" value="<?=$book["id"];?>">
 
-                </td>
-                <td>
-                    <form class="btn-group" method="POST">
-                        <input type="hidden" name="id" value="<?=$book["id"];?>">
+                            <input type="submit" name="action" value="select" class="btn btn-primary m-1">
 
-                        <input type="submit" name="action" value="select" class="btn btn-primary m-1">
+                            <input type="submit" name="action" value="delete" class="btn btn-danger m-1 ">
 
-                        <input type="submit" name="action" value="delete" class="btn btn-danger m-1 ">
-
-                    </form>
-                </td>
-                <?php endforeach;?>
+                        </form>
+                    </td>
+                    <?php endforeach;?>
                 <?php endif;?>
             </tr>
         </tbody>
@@ -145,7 +137,10 @@ if (isset($_POST["action"]) && $_POST["action"] != "") {
 
 <script>
     let table = new DataTable("#myTable", {
-        lengthMenu: [3,6,9]
+        lengthMenu: [3,6,9],
+        language: {
+            emptyTable: 'No data available in table'
+        }
     });
 </script>
 <?php require_once "../templates/messages.php";?>
