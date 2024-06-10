@@ -21,6 +21,7 @@ if (!isset($_SESSION["logged"])) {
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
     <link rel="stylesheet" href="../../css/datatables.min.css">
     <script src="../../js/datatables.min.js"></script>
+    <script src="../../js/sweetalert2.all.min.js"></script>
 </head>
 <body>
     <?php

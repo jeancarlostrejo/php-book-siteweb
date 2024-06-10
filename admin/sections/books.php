@@ -36,7 +36,7 @@ if (isset($_POST["action"]) && $_POST["action"] != "") {
         case "delete":
             require_once "./actions/deleteBook.php";
             break;
-            
+
         default:
             break;
     }
@@ -56,24 +56,7 @@ if (isset($_POST["action"]) && $_POST["action"] != "") {
     <div class="card-header">
         Datos del libro
     </div>
-    <?php if (!empty($msgSucces)): ?>
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <p><?=$msgSucces;?></p>
-        <button type="button" class="btn-close" data-bs-dismiss="alert"
-            aria-label="Close"></button>
-    </div>
 
-    <?php elseif (!empty($errors)): ?>
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <ul>
-            <?php foreach ($errors as $error): ?>
-            <li><?=$error;?></li>
-            <?php endforeach;?>
-        </ul>
-        <button type="button" class="btn-close" data-bs-dismiss="alert"
-            aria-label="Close"></button>
-    </div>
-    <?php endif;?>
     <div class="card-body">
         <form action="" enctype="multipart/form-data" method="POST">
             <div>
@@ -165,4 +148,5 @@ if (isset($_POST["action"]) && $_POST["action"] != "") {
         lengthMenu: [3,6,9]
     });
 </script>
+<?php require_once "../templates/messages.php";?>
 <?php require_once "../templates/footer.php";?>
