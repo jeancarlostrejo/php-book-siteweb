@@ -115,7 +115,7 @@ if (isset($_POST["action"]) && $_POST["action"] != "") {
 
 <div class="table-responsive col-sm-12 col-md-7 col-lg-7 col-xl-7">
     <h3 class="text-center text-secondary">Listado de Libros</h3>
-    <table class="table table-bordered">
+    <table id="myTable" class="table table-bordered">
         <thead class="table-info">
             <tr>
                 <th scope="col">#</th>
@@ -160,4 +160,9 @@ if (isset($_POST["action"]) && $_POST["action"] != "") {
 </div>
 
 
+<script>
+    let table = new DataTable("#myTable", {
+        lengthMenu: [3,6,9]
+    });
+</script>
 <?php require_once "../templates/footer.php";?>

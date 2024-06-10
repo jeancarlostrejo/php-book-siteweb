@@ -19,6 +19,8 @@ if (!isset($_SESSION["logged"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administrador</title>
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/datatables.min.css">
+    <script src="../../js/datatables.min.js"></script>
 </head>
 <body>
     <?php
@@ -60,7 +62,7 @@ $url = $protocolo . $_SERVER['HTTP_HOST'];
                         </li>
                     </ul>
                     <div class="m-2">
-                        <p>Hola, <?=$userName?></p>
+                        <p>Hola, <?=$userName;?></p>
                     </div>
                     <div >
                         <a class="btn btn-primary"  href="<?=$url . '/admin/sections/logout.php';?>">Cerrar sesión</a>
