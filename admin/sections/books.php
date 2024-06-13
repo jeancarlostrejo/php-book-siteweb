@@ -11,7 +11,6 @@ $errors = [];
 $stm = $pdo->prepare("SELECT * FROM books");
 $stm->execute();
 $result = $stm->fetchAll();
-
 if (isset($_POST["action"]) && $_POST["action"] != "") {
 
     switch ($action) {
@@ -30,11 +29,6 @@ if (isset($_POST["action"]) && $_POST["action"] != "") {
         case "cancel":
             header("Location: " . $_SERVER["REQUEST_URI"]);
             exit;
-
-            break;
-
-        case "delete":
-            require_once "./actions/deleteBook.php";
             break;
 
         default:
@@ -108,7 +102,7 @@ if (isset($_POST["action"]) && $_POST["action"] != "") {
             </tr>
         </thead>
         <tbody>
-            <?php if($stm->rowCount() > 0): ?>
+            <?php if ($stm->rowCount() > 0): ?>
                 <?php foreach ($result as $book): ?>
                 <tr>
                     <td><?=$book["id"];?></td>
@@ -120,10 +114,8 @@ if (isset($_POST["action"]) && $_POST["action"] != "") {
                     <td>
                         <form class="btn-group" method="POST">
                             <input type="hidden" name="id" value="<?=$book["id"];?>">
-
                             <input type="submit" name="action" value="select" class="btn btn-primary m-1">
-
-                            <input type="submit" name="action" value="delete" class="btn btn-danger m-1 ">
+                            <a class="btn btn-danger m-1 " onclick="deleteBook(<?=$book['id'];?>)">delete</a>
 
                         </form>
                     </td>
@@ -134,7 +126,7 @@ if (isset($_POST["action"]) && $_POST["action"] != "") {
     </table>
 </div>
 
-
+<script src="../../js/deleteBook.js"></script>
 <script>
     let table = new DataTable("#myTable", {
         lengthMenu: [3,6,9],
